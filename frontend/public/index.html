@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitGenie - AI Outfit Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #ff1744;
+            --primary-light: #ff5983;
+            --secondary: #1a1a1a;
+            --dark: #0d1117;
+            --darker: #010409;
+            --light: #ffffff;
+            --grey-light: #f8fafc;
+            --grey: #94a3b8;
+            --grey-dark: #475569;
+            --success: #10b981;
+            --gradient: linear-gradient(135deg, #ff1744 0%, #ff5983 50%, #e91e63 100%);
+            --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            overflow: hidden;
+        }
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--gradient);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--gradient);
+            border-radius: 50%;
+            bottom: -150px;
+            right: -150px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) translateX(20px) rotate(120deg); }
+            66% { transform: translateY(20px) translateX(-20px) rotate(240deg); }
+        }
+        
+        /* Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 23, 68, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 23, 68, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            animation: glow 3s ease-in-out infinite alternate;
+            letter-spacing: -2px;
+        }
+        
+        @keyframes glow {
+            from { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 23, 68, 0.3)); }
+            to { filter: brightness(1.1) drop-shadow(0 0 30px rgba(255, 23, 68, 0.5)); }
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--grey);
+            margin-bottom: 40px;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--light);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+        }
+        
+        .feature:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 23, 68, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 8px 32px rgba(255, 23, 68, 0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--light);
+            text-align: left;
+        }
+        
+        /* Style Grid */
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .style-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .style-card:hover::before {
+            left: 100%;
+        }
+        
+        .style-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(255, 23, 68, 0.2);
+            background: rgba(255, 23, 68, 0.05);
+        }
+        
+        .style-card.active {
+            border-color: var(--primary);
+            background: rgba(255, 23, 68, 0.1);
+            box-shadow: 0 8px 24px rgba(255, 23, 68, 0.25);
+        }
+        
+        .style-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .style-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+        
+        .style-desc {
+            font-size: 0.8rem;
+            color: var(--grey);
+        }
+        
+        /* Input Styles */
+        .input-group {
+            margin-bottom: 32px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .input-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 23, 68, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .text-input::placeholder {
+            color: var(--grey);
+        }
+        
+        .random-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 16px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .random-btn:hover {
+            border-color: var(--primary);
+            background: rgba(255, 23, 68, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Button Styles */
+        .generate-btn {
+            width: 100%;
+            padding: 20px 32px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(255, 23, 68, 0.3);
+        }
+        
+        .generate-btn:hover:not(.loading) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 23, 68, 0.4);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .generate-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        .generate-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Result Section */
+        .result-section {
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .result-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--grey);
+            font-size: 1.1rem;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-top: 24px;
+            padding: 48px 24px;
+        }
+        
+        .result-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-top: 24px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Result Details */
+        .result-details {
+            margin-top: 20px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        
+        .result-details-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .result-details-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .result-details strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .result-details-value {
+            color: var(--light);
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+        
+        /* Download Button */
+        .download-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(1, 4, 9, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: var(--light);
+        }
+        
+        .loading-spinner {
+            width: 64px;
+            height: 64px;
+            border: 3px solid rgba(255, 23, 68, 0.2);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .loading-subtext {
+            color: var(--grey);
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .features {
+                gap: 16px;
+            }
+            
+            .feature {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .style-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section {
+                padding: 24px;
+            }
+            
+            .container {
+                padding: 0 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .style-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">FitGenie</h1>
+            <p class="tagline">Transform your style ideas into stunning outfit visuals with AI magic</p>
+            
+            <div class="features">
+                <div class="feature">✨ AI-Powered</div>
+                <div class="feature">🎨 Style Generator</div>
+                <div class="feature">⚡ Instant Results</div>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="section fade-in">
+                <h2 class="section-title">Create Your Perfect Outfit</h2>
+                
+                <div class="input-group">
+                    <label class="input-label">Choose Your Style</label>
+                    <div class="style-grid">
+                        <div class="style-card active" data-style="realistic">
+                            <div class="style-icon">📸</div>
+                            <div class="style-name">Realistic</div>
+                            <div class="style-desc">Photo-like</div>
+                        </div>
+                        <div class="style-card" data-style="artistic">
+                            <div class="style-icon">🎨</div>
+                            <div class="style-name">Artistic</div>
+                            <div class="style-desc">Creative</div>
+                        </div>
+                        <div class="style-card" data-style="minimal">
+                            <div class="style-icon">⚪</div>
+                            <div class="style-name">Minimal</div>
+                            <div class="style-desc">Clean</div>
+                        </div>
+                        <div class="style-card" data-style="vintage">
+                            <div class="style-icon">🕰️</div>
+                            <div class="style-name">Vintage</div>
+                            <div class="style-desc">Retro</div>
+                        </div>
+                        <div class="style-card" data-style="streetwear">
+                            <div class="style-icon">🏙️</div>
+                            <div class="style-name">Street</div>
+                            <div class="style-desc">Urban</div>
+                        </div>
+                        <div class="style-card" data-style="formal">
+                            <div class="style-icon">👔</div>
+                            <div class="style-name">Formal</div>
+                            <div class="style-desc">Business</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Describe Your Vibe</label>
+                    <div class="input-controls">
+                        <span></span>
+                        <button class="random-btn" onclick="generateRandomIdea()">
+                            🎲 Random Idea
+                        </button>
+                    </div>
+                    <textarea 
+                        class="text-input" 
+                        id="outfitDescription"
+                        placeholder="Describe your perfect outfit... e.g., 'Elegant minimalist outfit with neutral colors and clean lines' or 'Cozy autumn look with warm tones and layers'"
+                    >Elegant minimalist outfit with neutral colors and clean lines</textarea>
+                </div>
+                
+                <button class="generate-btn" onclick="generateOutfit()">
+                    Generate My Outfit
+                </button>
+            </div>
+            
+            <div class="section result-section fade-in">
+                <h2 class="section-title">Your Generated Outfit</h2>
+                <div id="resultArea">
+                    <div class="result-placeholder">
+                        <div>
+                            <div style="font-size: 3.5rem; margin-bottom: 20px;">✨</div>
+                            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: var(--light);">Your AI-generated outfit will appear here</div>
+                            <div style="font-size: 1rem; color: var(--grey);">Describe your style and click generate!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Creating your perfect outfit...</div>
+            <div class="loading-subtext">This may take a few seconds</div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedStyle = 'realistic';
+        let currentImageUrl = null;
+        
+        // Style selection
+        document.querySelectorAll('.style-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.style-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                selectedStyle = this.dataset.style;
+                
+                // Visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        const randomIdeas = [
+            "Elegant minimalist outfit with neutral colors and clean lines",
+            "Cozy autumn look with warm tones and layers",
+            "Bold streetwear with vibrant colors and urban edge",
+            "Sophisticated business casual with modern touches",
+            "Bohemian chic with flowing fabrics and earthy tones",
+            "Retro vintage style with classic silhouettes",
+            "Edgy rocker outfit with leather and dark colors",
+            "Summer beach vibes with light fabrics and pastels",
+            "Preppy collegiate style with structured pieces",
+            "Glamorous evening wear with luxurious textures",
+            "Sporty athleisure with contemporary athletic wear",
+            "Romantic feminine style with soft details and florals",
+            "Monochromatic outfit in shades of gray",
+            "Colorful festival outfit with bold patterns",
+            "Classic denim and white tee combination",
+            "Power suit with statement accessories"
+        ];
+        
+        function generateRandomIdea() {
+            const randomIdea = randomIdeas[Math.floor(Math.random() * randomIdeas.length)];
+            document.getElementById('outfitDescription').value = randomIdea;
+            
+            // Visual feedback
+            const btn = event.target;
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 150);
+        }
+        
+        async function generateOutfit() {
+            const description = document.getElementById('outfitDescription').value.trim();
+            
+            if (!description) {
+                alert('Please describe your outfit idea!');
+                return;
+            }
+            
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const resultArea = document.getElementById('resultArea');
+            const generateBtn = document.querySelector('.generate-btn');
+            
+            // Show loading
+            loadingOverlay.style.display = 'flex';
+            generateBtn.classList.add('loading');
+            generateBtn.innerHTML = 'Creating Magic...';
+            
+            try {
+                console.log('🚀 Sending request:', { description, style: selectedStyle });
+                
+                const response = await fetch('http://localhost:3001/api/generate-outfit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        description: description,
+                        style: selectedStyle
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Response received:', data);
+                
+                if (data.success && data.imageUrl) {
+                    currentImageUrl = data.imageUrl;
+                    
+                    // Display success message and image
+                    resultArea.innerHTML = `
+                        <div class="success-message">
+                            🎉 Outfit generated successfully!
+                        </div>
+                        <img src="${data.imageUrl}" alt="Generated Outfit" class="result-image" 
+                             onload="this.style.opacity='1'" 
+                             onerror="handleImageError(this)">
+                        <div class="result-details">
+                            <div class="result-details-row">
+                                <strong>Style:</strong>
+                                <span class="result-details-value">${selectedStyle.charAt(0).toUpperCase() + selectedStyle.slice(1)}</span>
+                            </div>
+                            <div class="result-details-row">
+                                <strong>Description:</strong>
+                                <span class="result-details-value">${description}</span>
+                            </div>
+                            <div class="result-details-row">
+                                <strong>Generated:</strong>
+                                <span class="result-details-value">${new Date().toLocaleString()}</span>
+                            </div>
+                            <div class="result-details-row">
+                                <strong>Resolution:</strong>
+                                <span class="result-details-value">512 × 768 pixels</span>
+                            </div>
+                        </div>
+                        <button class="download-btn" onclick="downloadImage()">
+                            <span>📥</span> Download Image
+                        </button>
+                    `;
+                } else {
+                    throw new Error(data.error || 'Invalid response from server');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error generating outfit:', error);
+                resultArea.innerHTML = `
+                    <div class="result-placeholder">
+                        <div style="color: #ff4757;">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">⚠️</div>
+                            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: var(--light);"><strong>Oops! Something went wrong</strong></div>
+                            <div style="font-size: 1rem; margin-top: 12px; color: var(--grey);">${error.message}</div>
+                            <div style="font-size: 0.9rem; margin-top: 16px; color: var(--grey-dark);">
+                                Make sure your backend server is running on port 3001
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } finally {
+                loadingOverlay.style.display = 'none';
+                generateBtn.classList.remove('loading');
+                generateBtn.innerHTML = 'Generate My Outfit';
+            }
+        }
+        
+        function handleImageError(img) {
+            img.style.display = 'none';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'result-placeholder';
+            errorDiv.innerHTML = `
+                <div style="color: #ff4757;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🖼️</div>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; color: var(--light);">Image failed to load</div>
+                    <div style="font-size: 1rem; color: var(--grey);">The image was generated but couldn't be displayed</div>
+                </div>
+            `;
+            img.parentNode.insertBefore(errorDiv, img);
+        }
+        
+        function downloadImage() {
+            if (!currentImageUrl) {
+                alert('No image to download!');
+                return;
+            }
+            
+            // Create a temporary anchor element to trigger download
+            const link = document.createElement('a');
+            link.href = currentImageUrl;
+            link.download = `fitgenie-outfit-${Date.now()}.jpg`;
+            link.target = '_blank';
+            
+            // Add visual feedback
+            const btn = event.target.closest('.download-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span>⬇️</span> Downloading...';
+            btn.style.pointerEvents = 'none';
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Reset button after delay
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.pointerEvents = 'auto';
+            }, 2000);
+        }
+        
+        // Enter key support for textarea
+        document.getElementById('outfitDescription').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                generateOutfit();
+            }
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Initialize animations on load
+        window.addEventListener('load', function() {
+            // Add staggered animation to style cards
+            document.querySelectorAll('.style-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Add entrance animation to features
+            document.querySelectorAll('.feature').forEach((feature, index) => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    feature.style.transition = 'all 0.6s ease';
+                    feature.style.opacity = '1';
+                    feature.style.transform = 'translateY(0)';
+                }, 500 + index * 100);
+            });
+        });
+        
+        // Add click ripple effect to buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.generate-btn, .download-btn, .random-btn')) {
+                const button = e.target;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    pointer-events: none;
+                    animation: ripple 0.6s linear;
+                `;
+                
+                // Add ripple keyframes if not exists
+                if (!document.querySelector('#ripple-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'ripple-styles';
+                    style.textContent = `
+                        @keyframes ripple {
+                            to { transform: scale(2); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                button.style.position = 'relative';
+                button.style.overflow = 'hidden';
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        });
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // ESC to close loading overlay (emergency exit)
+            if (e.key === 'Escape') {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay.style.display === 'flex') {
+                    loadingOverlay.style.display = 'none';
+                    document.querySelector('.generate-btn').classList.remove('loading');
+                    document.querySelector('.generate-btn').innerHTML = 'Generate My Outfit';
+                }
+            }
+            
+            // Number keys for style selection
+            const numKey = parseInt(e.key);
+            if (numKey >= 1 && numKey <= 6) {
+                const styleCards = document.querySelectorAll('.style-card');
+                if (styleCards[numKey - 1]) {
+                    styleCards[numKey - 1].click();
+                }
+            }
+        });
+        
+        // Add copy prompt functionality
+        function copyPrompt(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show temporary feedback
+                const feedback = document.createElement('div');
+                feedback.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--success);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease;
+                `;
+                feedback.textContent = 'Prompt copied to clipboard!';
+                document.body.appendChild(feedback);
+                
+                setTimeout(() => {
+                    feedback.remove();
+                }, 2000);
+            });
+        }
+        
+        // Performance optimization: Debounce resize events
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Recalculate any size-dependent elements here if needed
+            }, 250);
+        });
+    </script>
+    
+    <!-- React root div (hidden) -->
+    <div id="root"></div>
+</body>
+</html>

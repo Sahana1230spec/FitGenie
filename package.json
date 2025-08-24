@@ -1,0 +1,51 @@
+{
+  "name": "fitgenie-app",
+  "version": "1.0.0",
+  "description": "AI-powered outfit visualizer - Transform your style ideas into stunning visuals",
+  "main": "backend/server.js",
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install:all": "npm run install:frontend && npm run install:backend",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:frontend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && serve -s build -l 3000",
+    "start": "npm run start:backend",
+    "test": "cd frontend && npm test",
+    "deploy:build": "npm run install:all && npm run build",
+    "deploy:replit": "npm run install:all && npm run build && npm run start"
+  },
+  "keywords": [
+    "ai",
+    "fashion",
+    "outfit",
+    "generator",
+    "style",
+    "visualizer",
+    "react",
+    "nodejs",
+    "hugging-face"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "serve": "^14.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/fitgenie.git"
+  },
+  "homepage": "https://fitgenie.app",
+  "bugs": {
+    "url": "https://github.com/yourusername/fitgenie/issues"
+  }
+}
