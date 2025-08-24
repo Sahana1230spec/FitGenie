@@ -1,144 +1,262 @@
-# 🧙‍♂️ FitGenie - AI Outfit Visualizer
+# FitGenie 🧞‍♀️
 
-Transform your style ideas into stunning outfit visuals with AI magic!
+> **AI-powered Outfit Generator** - Your personal styling assistant that creates perfect outfit combinations using advanced AI technology.
 
-![FitGenie Demo](https://via.placeholder.com/800x400/667eea/ffffff?text=FitGenie+AI+Fashion+Generator)
+Built with **React** (frontend) and **Node.js + Express** (backend), FitGenie transforms your wardrobe preferences into stunning, personalized outfit suggestions instantly!
+
+
+
+---
 
 ## ✨ Features
 
-- 🎨 **AI-Powered Generation**: Describe your style and get instant visual results
-- 🎭 **Multiple Styles**: Choose from realistic, artistic, minimal, vintage, streetwear, and formal
-- 📱 **Fully Responsive**: Works perfectly on desktop, tablet, and mobile
-- 🚀 **Fast & Free**: Uses Hugging Face's free API tier
-- 💾 **Download & Share**: Save your creations or share with friends
-- 🔒 **Secure**: Rate limited and content filtered
+🎯 **Smart AI Generation** - Advanced algorithms create outfit combinations based on your style preferences  
+🎨 **Personalized Styling** - Tailored recommendations that match your unique taste and occasion  
+📱 **Responsive Design** - Seamless experience across desktop, tablet, and mobile devices  
+🖼️ **Image Upload Support** - Upload your clothing items for AI-powered mix-and-match suggestions  
+⚡ **Real-time Processing** - Lightning-fast outfit generation with instant results  
+🌈 **Style Customization** - Filter by color, occasion, weather, and personal preferences  
+💾 **Outfit History** - Save and revisit your favorite generated outfits  
 
-## 🚀 Quick Start
+---
+
+## 🛠️ Tech Stack
+
+| **Frontend** | **Backend** | **Styling** | **Tools** |
+|--------------|-------------|-------------|-----------|
+| React 18.x | Node.js 18.x | TailwindCSS | VS Code |
+| JavaScript ES6+ | Express.js | CSS3 | Git & GitHub |
+| HTML5 | Multer (File Upload) | Responsive Design | npm/yarn |
+| React Hooks | RESTful APIs | Modern UI/UX | Postman |
+
+---
+
+## 📂 Project Structure
+
+```
+FitGenie/
+├── 📁 backend/
+│   ├── 📁 controllers/
+│   │   ├── imageController.js      # AI image generation logic
+│   │   └── outfitController.js     # Outfit recommendation engine
+│   ├── 📁 middleware/
+│   │   ├── auth.js                 # Authentication middleware
+│   │   └── fileUpload.js           # File handling middleware
+│   ├── 📁 routes/
+│   │   ├── api.js                  # Main API routes
+│   │   ├── outfits.js              # Outfit-related endpoints
+│   │   └── images.js               # Image processing routes
+│   ├── 📁 uploads/                 # User uploaded files
+│   ├── 📁 utils/
+│   │   ├── aiHelper.js             # AI integration utilities
+│   │   └── imageProcessor.js       # Image processing functions
+│   ├── server.js                   # Express server entry point
+│   ├── package.json                # Backend dependencies
+│   └── .env                        # Environment variables
+├── 📁 frontend/
+│   ├── 📁 public/
+│   │   ├── index.html              # Main HTML template
+│   │   ├── favicon.ico             # Site favicon
+│   │   └── manifest.json           # PWA manifest
+│   ├── 📁 src/
+│   │   ├── 📁 components/
+│   │   │   ├── ImageDisplay.js     # Image preview component
+│   │   │   ├── OutfitGenerator.js  # Main generator interface
+│   │   │   ├── StyleSelector.js    # Style preference selector
+│   │   │   └── OutfitCard.js       # Individual outfit display
+│   │   ├── 📁 pages/
+│   │   │   ├── Home.js             # Landing page
+│   │   │   ├── Generator.js        # Main generator page
+│   │   │   └── Gallery.js          # Outfit gallery
+│   │   ├── 📁 styles/
+│   │   │   ├── index.css           # Global styles
+│   │   │   └── tailwind.css        # TailwindCSS imports
+│   │   ├── App.js                  # Main React component
+│   │   └── index.js                # React DOM entry point
+│   ├── package.json                # Frontend dependencies
+│   └── tailwind.config.js          # TailwindCSS configuration
+├── 📁 screenshots/                 # Project screenshots
+├── README.md                       # Project documentation
+├── LICENSE                         # GPL-2.0 License
+└── .gitignore                      # Git ignore rules
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 16+ installed
-- Free Hugging Face account
+- **Node.js** (v18.0 or higher)
+- **npm** or **yarn**
+- **Git** for version control
 
-### Setup
-1. **Clone and install:**
-   ```bash
-   git clone https://github.com/yourusername/fitgenie.git
-   cd fitgenie
-   npm run install:all
-   ```
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/Sahana1230spec/FitGenie.git
+cd FitGenie
+```
 
-2. **Get your API key:**
-   - Sign up at [Hugging Face](https://huggingface.co/)
-   - Go to Settings → Access Tokens
-   - Create a "Read" token
+### 2️⃣ Backend Setup
+```bash
+# Navigate to backend directory
+cd backend
 
-3. **Configure environment:**
-   ```bash
-   # Edit .env file
-   HF_API_KEY=your_hugging_face_token_here
-   HF_MODEL=runwayml/stable-diffusion-v1-5
-   ```
+# Install dependencies
+npm install
 
-4. **Run the app:**
-   ```bash
-   npm run dev
-   ```
+# Create environment file
+cp .env.example .env
+# Edit .env with your API keys and configurations
 
-5. **Open your browser:**
-   - Frontend: http://localhost:3000
-   - API: http://localhost:3001
+# Start the backend server
+npm start
+# Server runs on http://localhost:5000
+```
 
-## 🎨 Usage Examples
+### 3️⃣ Frontend Setup
+```bash
+# Navigate to frontend directory (from project root)
+cd frontend
 
-Try these prompts:
-- "Oversized softboy aesthetic with hoodies and pastel tones"
-- "Elegant minimalist outfit with neutral colors and clean lines"
-- "Vintage 90s grunge style with denim and band tees"
-- "Professional business casual with modern touches"
+# Install dependencies
+npm install
 
-## 🏗️ Tech Stack
+# Start the development server
+npm start
+# Frontend runs on http://localhost:3000
+```
 
-**Frontend:**
-- React 18 with Hooks
-- Tailwind CSS for styling
-- Framer Motion for animations
-- Axios for API calls
-- React Hot Toast for notifications
+### 4️⃣ Access the Application
+Open your browser and navigate to **http://localhost:3000** 🎉
 
-**Backend:**
-- Node.js + Express
-- Hugging Face Inference API
-- Rate limiting & security middleware
-- CORS and Helmet protection
-
-## 📱 Screenshots
-
-### Desktop View
-![Desktop](https://via.placeholder.com/600x400/4facfe/ffffff?text=Desktop+View)
-
-### Mobile View
-![Mobile](https://via.placeholder.com/300x500/f093fb/ffffff?text=Mobile+View)
-
-## 🚀 Deployment
-
-### Replit (Recommended)
-1. Import this repo to Replit
-2. Add environment variables in Secrets
-3. Run `npm run deploy:replit`
-
-### Vercel
-1. Connect your GitHub repo
-2. Add environment variables
-3. Deploy with one click
-
-## 📊 API Endpoints
-
-- `POST /api/generate` - Generate outfit image
-- `GET /api/generate/:id` - Get image by ID
-- `GET /api/health` - Health check
+---
 
 ## 🔧 Configuration
 
-### Environment Variables
+### Environment Variables (.env)
 ```env
-HF_API_KEY=your_token        # Required: Hugging Face API key
-HF_MODEL=model_name          # AI model to use
-PORT=3001                    # Backend port
-NODE_ENV=development         # Environment
-FRONTEND_URL=http://localhost:3000  # Frontend URL for CORS
+# Backend Configuration
+PORT=5000
+NODE_ENV=development
+
+# API Keys (Add your actual keys)
+OPENAI_API_KEY=your_openai_api_key_here
+STABILITY_AI_KEY=your_stability_ai_key_here
+
+# File Upload Configuration
+UPLOAD_PATH=./uploads
+MAX_FILE_SIZE=10485760
+
+# Database (if using)
+DATABASE_URL=your_database_url_here
 ```
 
-### Available Models
-- `runwayml/stable-diffusion-v1-5` (recommended)
-- `stabilityai/stable-diffusion-2-1`
-- `CompVis/stable-diffusion-v1-4`
+---
 
-## 🛡️ Security Features
+## 📖 API Documentation
 
-- Rate limiting (5 requests/minute per IP)
-- Input validation and sanitization
-- Content filtering for inappropriate prompts
-- CORS protection
-- Security headers with Helmet
+### Base URL: `http://localhost:5000/api`
+
+#### 🔗 Main Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/generate-outfit` | Generate outfit based on preferences |
+| `POST` | `/upload-image` | Upload clothing item image |
+| `GET` | `/outfit-history` | Retrieve user's outfit history |
+| `DELETE` | `/outfit/:id` | Delete specific outfit |
+
+#### Example Request:
+```bash
+curl -X POST http://localhost:5000/api/generate-outfit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "style": "casual",
+    "occasion": "work",
+    "colors": ["blue", "white"],
+    "weather": "mild"
+  }'
+```
+
+---
+
+## 🖼️ Screenshots
+
+![Homepage](./screenshots/homepage.png)
+![Sample Output 1](./screenshots/sampleoutput_1.png)
+![Sample Output 2](./screenshots/sampleoutput_2.png)
+![Sample Output 3](./screenshots/sampleoutput_3.png)
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] **User Authentication** - Personal accounts and saved preferences
+- [ ] **Social Sharing** - Share outfits on social media platforms
+- [ ] **Weather Integration** - Real-time weather-based recommendations
+- [ ] **Shopping Integration** - Direct links to purchase recommended items
+- [ ] **AR Try-On** - Virtual outfit try-on using camera
+- [ ] **Style Analytics** - Personal style insights and trends
+- [ ] **Mobile App** - React Native mobile application
+
+---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+We welcome contributions! Please follow these steps:
 
-## 📄 License
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Development Guidelines
+- Follow ESLint configuration
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+
+---
+
+## 📝 License
+
+This project is licensed under the **GNU General Public License v2.0** - see the [LICENSE](LICENSE) file for details.
+
+### License Summary
+- ✅ **Commercial use**
+- ✅ **Modification**
+- ✅ **Distribution**
+- ✅ **Private use**
+- ❌ **Liability**
+- ❌ **Warranty**
+
+---
+
+## 👩‍💻 Author
+
+**Sahana R**  
+
+---
 
 ## 🙏 Acknowledgments
 
-- [Hugging Face](https://huggingface.co/) for the amazing AI models
-- [Tailwind CSS](https://tailwindcss.com/) for the styling framework
-- [Lucide Icons](https://lucide.dev/) for the beautiful icons
+- **OpenAI** for AI integration capabilities
+- **React Team** for the amazing frontend framework
+- **TailwindCSS** for beautiful, responsive styling
+- **Node.js Community** for robust backend support
+- **Open Source Contributors** worldwide 🌍
 
-## 📞 Support
 
 
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you found it helpful! ⭐
+
+**Made with ❤️ and lots of ☕**
+
+[🔝 Back to top](#fitgenie-️)
+
+</div>
