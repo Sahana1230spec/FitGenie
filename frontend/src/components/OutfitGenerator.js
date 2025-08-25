@@ -6,6 +6,9 @@ import ImageDisplay from './ImageDisplay';
 import LoadingSpinner from './LoadingSpinner';
 
 const OutfitGenerator = () => {
+  // ✅ ADD THIS LINE - API URL for Railway backend
+  const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+  
   const [prompt, setPrompt] = useState('');
   const [selectedStyle, setSelectedStyle] = useState('realistic');
   const [generatedImage, setGeneratedImage] = useState(null);
@@ -49,7 +52,8 @@ const OutfitGenerator = () => {
     try {
       toast.loading('Creating your outfit...', { duration: 1000 });
       
-      const response = await axios.post('http://localhost:3001/api/generate-outfit', {
+      // ✅ FIXED LINE - Now uses Railway backend URL
+      const response = await axios.post(`${API_URL}/api/generate-outfit`, {
         description: prompt,
         style: selectedStyle
       });
