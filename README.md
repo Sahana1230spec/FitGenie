@@ -1,10 +1,8 @@
 # FitGenie 🧞‍♀️
 
-> **AI-powered Outfit Generator** - Your personal styling assistant that creates perfect outfit combinations using advanced AI technology.
+> **AI-Powered Outfit Generator** - Your personal styling assistant that creates perfect outfit combinations using advanced AI technology.
 
-Built with **React** (frontend) and **Node.js + Express** (backend), FitGenie transforms your wardrobe preferences into stunning, personalized outfit suggestions instantly!
-
-
+FitGenie is a full-stack web application that transforms your style preferences into stunning, personalized outfit suggestions instantly using cutting-edge AI algorithms.
 
 ---
 
@@ -22,12 +20,23 @@ Built with **React** (frontend) and **Node.js + Express** (backend), FitGenie tr
 
 ## 🛠️ Tech Stack
 
-| **Frontend** | **Backend** | **Styling** | **Tools** |
-|--------------|-------------|-------------|-----------|
-| React 18.x | Node.js 18.x | TailwindCSS | VS Code |
-| JavaScript ES6+ | Express.js | CSS3 | Git & GitHub |
-| HTML5 | Multer (File Upload) | Responsive Design | npm/yarn |
-| React Hooks | RESTful APIs | Modern UI/UX | Postman |
+### Frontend
+- **React.js** - Modern JavaScript library for building user interfaces
+- **TailwindCSS** - Utility-first CSS framework for styling
+- **HTML5 & CSS3** - Modern web standards
+- **JavaScript ES6+** - Latest JavaScript features
+
+### Backend
+- **Node.js** - JavaScript runtime environment
+- **Express.js** - Fast, unopinionated web framework
+- **Multer** - Middleware for handling file uploads
+- **RESTful APIs** - Clean and scalable API architecture
+
+### Development Tools
+- **npm/yarn** - Package management
+- **PostCSS** - CSS transformation tool
+- **Git & GitHub** - Version control and collaboration
+- **VS Code** - Development environment
 
 ---
 
@@ -37,109 +46,101 @@ Built with **React** (frontend) and **Node.js + Express** (backend), FitGenie tr
 FitGenie/
 ├── 📁 backend/
 │   ├── 📁 controllers/
-│   │   ├── imageController.js      # AI image generation logic
-│   │   └── outfitController.js     # Outfit recommendation engine
+│   │   └── imageController.js      # AI image generation logic
 │   ├── 📁 middleware/
-│   │   ├── auth.js                 # Authentication middleware
-│   │   └── fileUpload.js           # File handling middleware
+│   │   └── auth.js                 # Authentication middleware
 │   ├── 📁 routes/
-│   │   ├── api.js                  # Main API routes
-│   │   ├── outfits.js              # Outfit-related endpoints
-│   │   └── images.js               # Image processing routes
-│   ├── 📁 uploads/                 # User uploaded files
+│   │   └── generate.js             # Main API routes
+│   ├── 📁 uploads/                 # User uploaded outfit images
 │   ├── 📁 utils/
-│   │   ├── aiHelper.js             # AI integration utilities
-│   │   └── imageProcessor.js       # Image processing functions
+│   │   └── imageUtils.js           # Image processing utilities
 │   ├── server.js                   # Express server entry point
 │   ├── package.json                # Backend dependencies
 │   └── .env                        # Environment variables
 ├── 📁 frontend/
 │   ├── 📁 public/
-│   │   ├── index.html              # Main HTML template
-│   │   ├── favicon.ico             # Site favicon
-│   │   └── manifest.json           # PWA manifest
+│   │   └── index.html              # Main HTML template
 │   ├── 📁 src/
-│   │   ├── 📁 components/
-│   │   │   ├── ImageDisplay.js     # Image preview component
-│   │   │   ├── OutfitGenerator.js  # Main generator interface
-│   │   │   ├── StyleSelector.js    # Style preference selector
-│   │   │   └── OutfitCard.js       # Individual outfit display
-│   │   ├── 📁 pages/
-│   │   │   ├── Home.js             # Landing page
-│   │   │   ├── Generator.js        # Main generator page
-│   │   │   └── Gallery.js          # Outfit gallery
-│   │   ├── 📁 styles/
-│   │   │   ├── index.css           # Global styles
-│   │   │   └── tailwind.css        # TailwindCSS imports
+│   │   ├── 📁 components/          # React components
+│   │   ├── 📁 pages/               # Page components
+│   │   ├── 📁 styles/              # CSS stylesheets
 │   │   ├── App.js                  # Main React component
 │   │   └── index.js                # React DOM entry point
 │   ├── package.json                # Frontend dependencies
-│   └── tailwind.config.js          # TailwindCSS configuration
+│   ├── tailwind.config.js          # TailwindCSS configuration
+│   ├── postcss.config.js           # PostCSS configuration
+│   └── .env                        # Frontend environment variables
 ├── 📁 screenshots/                 # Project screenshots
+├── 📁 node_modules/                # Project dependencies
 ├── README.md                       # Project documentation
-├── LICENSE                         # GPL-2.0 License
-└── .gitignore                      # Git ignore rules
+├── .gitignore                      # Git ignore rules
+├── package.json                    # Root package.json
+└── package-lock.json               # Dependency lock file
 ```
 
 ---
 
-## 🚀 Getting Started
-
 ### Prerequisites
-- **Node.js** (v18.0 or higher)
+- **Node.js** (v16.0 or higher)
 - **npm** or **yarn**
 - **Git** for version control
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/Sahana1230spec/FitGenie.git
+git clone https://github.com/yourusername/FitGenie.git
 cd FitGenie
 ```
 
-### 2️⃣ Backend Setup
+### 2️⃣ Install Root Dependencies
+```bash
+# Install root dependencies
+npm install
+```
+
+### 3️⃣ Backend Setup
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Install dependencies
+# Install backend dependencies
 npm install
 
 # Create environment file
-cp .env.example .env
-# Edit .env with your API keys and configurations
+touch .env
+# Add your environment variables (see Configuration section)
 
 # Start the backend server
 npm start
-# Server runs on http://localhost:5000
 ```
+The backend server will run on `http://localhost:5000`
 
-### 3️⃣ Frontend Setup
+### 4️⃣ Frontend Setup
 ```bash
 # Navigate to frontend directory (from project root)
 cd frontend
 
-# Install dependencies
+# Install frontend dependencies
 npm install
 
 # Start the development server
 npm start
-# Frontend runs on http://localhost:3000
 ```
+The frontend development server will run on `http://localhost:3000`
 
-### 4️⃣ Access the Application
+### 5️⃣ Access the Application
 Open your browser and navigate to **http://localhost:3000** 🎉
 
 ---
 
 ## 🔧 Configuration
 
-### Environment Variables (.env)
+### Backend Environment Variables (.env)
 ```env
-# Backend Configuration
+# Server Configuration
 PORT=5000
 NODE_ENV=development
 
-# API Keys (Add your actual keys)
+# AI Service API Keys
 OPENAI_API_KEY=your_openai_api_key_here
 STABILITY_AI_KEY=your_stability_ai_key_here
 
@@ -147,8 +148,18 @@ STABILITY_AI_KEY=your_stability_ai_key_here
 UPLOAD_PATH=./uploads
 MAX_FILE_SIZE=10485760
 
-# Database (if using)
-DATABASE_URL=your_database_url_here
+# CORS Configuration
+FRONTEND_URL=http://localhost:3000
+```
+
+### Frontend Environment Variables (.env)
+```env
+# API Configuration
+REACT_APP_API_URL=http://localhost:5000
+REACT_APP_UPLOAD_URL=http://localhost:5000/uploads
+
+# Feature Flags
+REACT_APP_ENABLE_ANALYTICS=false
 ```
 
 ---
@@ -159,56 +170,85 @@ DATABASE_URL=your_database_url_here
 
 #### 🔗 Main Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/generate-outfit` | Generate outfit based on preferences |
-| `POST` | `/upload-image` | Upload clothing item image |
-| `GET` | `/outfit-history` | Retrieve user's outfit history |
-| `DELETE` | `/outfit/:id` | Delete specific outfit |
+| Method | Endpoint | Description | Parameters |
+|--------|----------|-------------|------------|
+| `POST` | `/generate` | Generate outfit based on preferences | style, occasion, colors |
+| `POST` | `/upload` | Upload clothing item image | multipart/form-data |
+| `GET` | `/outfits` | Retrieve generated outfits | limit, offset |
+| `DELETE` | `/outfit/:id` | Delete specific outfit | id |
 
-#### Example Request:
-```bash
-curl -X POST http://localhost:5000/api/generate-outfit \
-  -H "Content-Type: application/json" \
-  -d '{
-    "style": "casual",
-    "occasion": "work",
-    "colors": ["blue", "white"],
-    "weather": "mild"
-  }'
+#### Example API Usage:
+```javascript
+// Generate outfit
+const response = await fetch('http://localhost:5000/api/generate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    style: 'casual',
+    occasion: 'work',
+    colors: ['blue', 'white'],
+    weather: 'mild'
+  })
+});
 ```
 
 ---
 
-## 🖼️ Screenshots
+## 🎨 How It Works
 
-![Homepage](./screenshots/homepage.png)
-![Sample Output 1](./screenshots/sampleoutput_1.png)
-![Sample Output 2](./screenshots/sampleoutput_2.png)
-![Sample Output 3](./screenshots/sampleoutput_3.png)
+1. **User Input** - Select style preferences, occasion, and color scheme
+2. **AI Processing** - Advanced algorithms analyze preferences and generate combinations
+3. **Image Generation** - Create visual representations of outfit suggestions
+4. **Personalization** - Learn from user feedback to improve future recommendations
+5. **Save & Share** - Store favorite outfits and share with friends
 
 ---
 
-## 🔮 Future Enhancements
+## 🚀 Deployment
+
+### Local Development
+```bash
+# Run both frontend and backend concurrently
+npm run dev
+```
+
+### Production Build
+```bash
+# Build frontend for production
+cd frontend
+npm run build
+
+# Start production server
+cd ../backend
+npm run start:prod
+```
+
+---
+
+## 🔮 Roadmap & Future Enhancements
 
 - [ ] **User Authentication** - Personal accounts and saved preferences
-- [ ] **Social Sharing** - Share outfits on social media platforms
+- [ ] **Social Features** - Share outfits and follow fashion influencers
 - [ ] **Weather Integration** - Real-time weather-based recommendations
-- [ ] **Shopping Integration** - Direct links to purchase recommended items
-- [ ] **AR Try-On** - Virtual outfit try-on using camera
-- [ ] **Style Analytics** - Personal style insights and trends
+- [ ] **Shopping Links** - Direct purchase links for recommended items
+- [ ] **AR Try-On** - Virtual outfit visualization using camera
+- [ ] **Style Analytics** - Personal fashion insights and trends
 - [ ] **Mobile App** - React Native mobile application
+- [ ] **Multi-language Support** - Internationalization features
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions from the community! Here's how you can help:
 
+### Development Process
 1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
 5. **Open** a Pull Request
 
 ### Development Guidelines
@@ -216,46 +256,62 @@ We welcome contributions! Please follow these steps:
 - Write meaningful commit messages
 - Add tests for new features
 - Update documentation as needed
+- Ensure responsive design compatibility
+
+### Code Style
+- Use meaningful variable names
+- Comment complex logic
+- Follow React best practices
+- Maintain consistent formatting
 
 ---
 
-## 📝 License
+## 🐛 Bug Reports & Feature Requests
 
-This project is licensed under the **GNU General Public License v2.0** - see the [LICENSE](LICENSE) file for details.
+Found a bug or have a feature request? Please create an issue on our [GitHub Issues](https://github.com/yourusername/FitGenie/issues) page.
 
-### License Summary
-- ✅ **Commercial use**
-- ✅ **Modification**
-- ✅ **Distribution**
-- ✅ **Private use**
-- ❌ **Liability**
-- ❌ **Warranty**
+### Bug Report Template
+- **Description**: Brief description of the bug
+- **Steps to Reproduce**: How to reproduce the issue
+- **Expected Behavior**: What should happen
+- **Screenshots**: If applicable, add screenshots
+- **Environment**: OS, browser, Node.js version
 
 ---
 
 ## 👩‍💻 Author
 
-**Sahana R**  
+**Sahana R**
 
 ---
 
 ## 🙏 Acknowledgments
 
 - **OpenAI** for AI integration capabilities
-- **React Team** for the amazing frontend framework
+- **React Team** for the incredible frontend framework
 - **TailwindCSS** for beautiful, responsive styling
 - **Node.js Community** for robust backend support
 - **Open Source Contributors** worldwide 🌍
 
+---
 
+## 🖼️ Screenshots
+
+![Homepage](./screenshots/homepage.png)
+
+![Sample Output 1](./screenshots/sampleoutput_1.png)
+
+![Sample Output 2](./screenshots/sampleoutput_2.png)
+
+![Sample Output 3](./screenshots/sampleoutput_3.png)
 
 ---
 
 <div align="center">
 
-### ⭐ Star this repo if you found it helpful! ⭐
+### Hope you like it! ✨
 
-**Made with ❤️ and lots of ☕**
+*Transform your style, one outfit at a time*
 
 [🔝 Back to top](#fitgenie-️)
 
